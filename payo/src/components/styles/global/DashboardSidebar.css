@@ -471,3 +471,26 @@
     transform: translateY(-2px);
   }
 }
+
+.dashboard-sidebar-top {
+  justify-content: space-between;
+}
+
+.dashboard-sidebar-badge {
+  padding: 4px 7px;
+
+  color: #159456;
+  background: #eaf8f0;
+
+  border-radius: 5px;
+
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.dashboard-sidebar-divider {
+  height: 1px;
+  margin: 27px 10px;
+  background: #f0f1ef;
+}
