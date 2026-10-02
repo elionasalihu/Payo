@@ -1,0 +1,346 @@
+.register-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+
+  padding: 32px 20px;
+
+  background: #f8f9f7;
+
+  font-family: "Manrope", sans-serif;
+}
+
+.register-shell {
+  width: 100%;
+  max-width: 430px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.register-brand {
+  display: flex;
+  justify-content: center;
+
+  margin-bottom: 42px;
+}
+
+.register-logo {
+  color: #111827;
+
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.055em;
+  line-height: 1;
+
+  text-decoration: none;
+}
+
+.register-logo b {
+  color: #20b86b;
+  font-weight: 700;
+}
+
+.register-card {
+  padding: 38px;
+
+  background: #ffffff;
+  border: 1px solid #e7e9e5;
+  border-radius: 14px;
+
+  box-shadow:
+    0 12px 35px rgba(17, 24, 39, 0.04),
+    0 2px 8px rgba(17, 24, 39, 0.025);
+}
+
+.register-heading {
+  margin-bottom: 28px;
+}
+
+.register-eyebrow {
+  display: block;
+  margin-bottom: 10px;
+
+  color: #20b86b;
+
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.register-heading h1 {
+  margin: 0;
+
+  color: #111827;
+
+  font-size: 27px;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.15;
+}
+
+.register-heading p {
+  max-width: 350px;
+
+  margin: 10px 0 0;
+
+  color: #98a2b3;
+
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.7;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
+}
+
+.register-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.register-field label {
+  color: #344054;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.register-input-wrapper {
+  height: 46px;
+
+  display: flex;
+  align-items: center;
+
+  padding: 0 13px;
+
+  color: #98a2b3;
+  background: #ffffff;
+
+  border: 1px solid #dfe3df;
+  border-radius: 8px;
+
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.register-input-wrapper:focus-within {
+  border-color: #20b86b;
+
+  box-shadow: 0 0 0 3px rgba(32, 184, 107, 0.09);
+}
+
+.register-input-wrapper input {
+  width: 100%;
+  height: 100%;
+
+  margin-left: 9px;
+
+  color: #111827;
+  background: transparent;
+
+  border: none;
+  outline: none;
+
+  font-family: "Manrope", sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.register-input-wrapper input::placeholder {
+  color: #b0b7c2;
+  font-weight: 500;
+}
+
+.register-password-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  color: #98a2b3;
+  background: transparent;
+  border: none;
+
+  cursor: pointer;
+}
+
+.register-password-toggle:hover {
+  color: #344054;
+}
+
+.register-password-hint {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  color: #98a2b3;
+
+  font-size: 9px;
+  font-weight: 500;
+}
+
+.register-password-hint svg {
+  color: #20b86b;
+}
+
+.register-terms {
+  display: flex !important;
+  align-items: flex-start;
+  gap: 8px;
+
+  margin-top: 1px;
+
+  color: #98a2b3 !important;
+
+  font-size: 9px !important;
+  font-weight: 500 !important;
+  line-height: 1.6;
+}
+
+.register-terms input {
+  width: 13px;
+  height: 13px;
+
+  flex: 0 0 13px;
+
+  margin: 1px 0 0;
+
+  accent-color: #20b86b;
+}
+
+.register-terms a {
+  color: #667085;
+  font-weight: 700;
+
+  text-decoration: none;
+}
+
+.register-terms a:hover {
+  color: #20b86b;
+}
+
+.register-submit {
+  width: 100%;
+  height: 46px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  margin-top: 3px;
+
+  color: #ffffff;
+  background: #111827;
+
+  border: none;
+  border-radius: 8px;
+
+  font-family: "Manrope", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background 180ms ease,
+    transform 180ms ease;
+}
+
+.register-submit:hover {
+  background: #1d2636;
+  transform: translateY(-1px);
+}
+
+.register-divider {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 25px 0;
+}
+
+.register-divider::before {
+  content: "";
+
+  position: absolute;
+  left: 0;
+  right: 0;
+
+  height: 1px;
+
+  background: #eef0ed;
+}
+
+.register-divider span {
+  position: relative;
+
+  padding: 0 11px;
+
+  color: #a5acb7;
+  background: #ffffff;
+
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.register-switch {
+  margin: 0;
+
+  color: #98a2b3;
+
+  text-align: center;
+
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.register-switch a {
+  color: #20b86b;
+  font-weight: 700;
+
+  text-decoration: none;
+}
+
+.register-switch a:hover {
+  color: #159456;
+}
+
+.register-footer {
+  margin: 25px 0 0;
+
+  color: #a5acb7;
+
+  text-align: center;
+
+  font-size: 9px;
+  font-weight: 500;
+}
+
+@media (max-width: 500px) {
+  .register-page {
+    padding: 24px 16px;
+  }
+
+  .register-brand {
+    margin-bottom: 32px;
+  }
+
+  .register-card {
+    padding: 28px 22px;
+  }
+
+  .register-heading h1 {
+    font-size: 25px;
+  }
+}
