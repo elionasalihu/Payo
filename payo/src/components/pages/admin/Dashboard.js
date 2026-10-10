@@ -120,10 +120,12 @@ function AdminDashboard() {
               <kbd>⌘ K</kbd>
             </button>
 
-            <button className="admin-add-button">
-              <Plus size={16} />
-              Add user
-            </button>
+            <a href="/admin/users/new">
+          <button className="users-add-button">
+            <Plus size={16} />
+            Add user
+          </button>
+          </a>
           </div>
         </header>
 
@@ -320,10 +322,12 @@ function AdminDashboard() {
               })}
             </div>
 
+           <a href="/admin/activity">
             <button className="admin-view-activity">
               View all activity
               <ArrowUpRight size={14} />
             </button>
+            </a>
           </div>
         </section>
 
@@ -336,10 +340,12 @@ function AdminDashboard() {
               <p>Recently registered Payo accounts</p>
             </div>
 
-            <button className="admin-view-all">
+           <a href="admin/users">
+             <button className="admin-view-all">
               View all users
               <ArrowUpRight size={14} />
             </button>
+           </a>
           </div>
 
           <div className="admin-users-table">

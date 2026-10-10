@@ -124,10 +124,12 @@ function UsersPage() {
             </p>
           </div>
 
+          <a href="/admin/users/new">
           <button className="users-add-button">
             <Plus size={16} />
             Add user
           </button>
+          </a>
         </header>
 
         <section className="users-stats">
