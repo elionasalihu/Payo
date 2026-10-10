@@ -87,16 +87,18 @@ function Dashboard() {
             <span className="dashboard-eyebrow">OVERVIEW</span>
 
             <h1>
-              Good morning, <strong>Amar.</strong>
+              Good morning, <strong>Elsa.</strong>
             </h1>
 
             <p>Here’s what’s happening with your shared expenses.</p>
           </div>
 
+          <a href="/dashboard/expenses/new">
           <button className="dashboard-header-add">
             <Plus size={16} />
             Add expense
           </button>
+          </a>
         </header>
 
         {/* Balance cards */}
@@ -165,7 +167,7 @@ function Dashboard() {
                 <p>Your latest shared expenses</p>
               </div>
 
-              <a href="#">
+              <a href="/dashboard/expenses">
                 View all
                 <ChevronRight size={14} />
               </a>
@@ -221,7 +223,7 @@ function Dashboard() {
                 <p>Where your money is shared</p>
               </div>
 
-              <a href="#">
+              <a href="dashboard/groups">
                 View all
                 <ChevronRight size={14} />
               </a>
@@ -257,10 +259,12 @@ function Dashboard() {
               ))}
             </div>
 
+            <a href="/dashboard/groups/new">
             <button className="dashboard-new-group">
               <Plus size={15} />
               Create new group
             </button>
+            </a>
           </div>
         </section>
       </main>

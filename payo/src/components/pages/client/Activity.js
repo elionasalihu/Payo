@@ -145,10 +145,11 @@ function Activity() {
             </p>
           </div>
 
+          <a href="/dashboard/expenses/new">
           <button className="activity-add-button">
             <Plus size={16} />
             Add expense
-          </button>
+          </button></a>
         </header>
 
         <section className="activity-summary">
@@ -277,11 +278,6 @@ function Activity() {
             <span>
               Showing your latest {activity.length} activities
             </span>
-
-            <button>
-              View all activity
-              <ChevronRight size={14} />
-            </button>
           </div>
         </section>
       </main>

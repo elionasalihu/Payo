@@ -114,10 +114,12 @@ function Groups() {
             </p>
           </div>
 
+          <a href="/dashboard/groups/new">
           <button className="groups-add-button">
             <Plus size={16} />
             Create group
           </button>
+          </a>
         </header>
 
         <section className="groups-summary">
@@ -297,10 +299,12 @@ function Groups() {
               </span>
             </div>
 
+            <a href="/dashboard/groups/new">
             <button className="groups-create-button">
               <Plus size={15} />
               Create group
             </button>
+            </a>
           </div>
         </section>
       </main>

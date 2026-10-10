@@ -115,10 +115,12 @@ function Expenses() {
             </p>
           </div>
 
-          <button className="expenses-add-button">
+          <a href="/dashboard/expenses/new">
+          <button className="dashboard-header-add">
             <Plus size={16} />
             Add expense
           </button>
+          </a>
         </header>
 
         <section className="expenses-summary">
@@ -268,10 +270,12 @@ function Expenses() {
               Showing {expenses.length} of {expenses.length} expenses
             </span>
 
+            <a href="/dashboard/activity">
             <button>
               View activity
               <ChevronRight size={14} />
             </button>
+            </a>
           </div>
         </section>
       </main>

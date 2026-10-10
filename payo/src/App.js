@@ -14,6 +14,8 @@ import ActivityAdmin from "./components/pages/admin/Activity"
 import Analytics from "./components/pages/admin/Analytics";
 import Settings from "./components/pages/shared/Setting";
 import AddUser from "./components/pages/admin/AddUser";
+import AddExpense from "./components/pages/client/AddExpense";
+import CreateGroup from "./components/pages/client/CreateGroup";
 
 function App() {
   return (
@@ -34,6 +36,8 @@ function App() {
         <Route path="/dashboard/settings" element={<Settings />} />
         <Route path="/admin/settings" element={<Settings />} />
         <Route path="/admin/users/new" element={<AddUser />} />
+        <Route path="/dashboard/expenses/new" element={<AddExpense />} />
+        <Route path="/dashboard/groups/new" element={<CreateGroup />} />
       </Routes>
     </BrowserRouter>
   );

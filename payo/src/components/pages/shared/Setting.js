@@ -685,10 +685,7 @@ function Settings() {
             </form>
           </div>
 
-          <footer className="settings-page-footer">
-            <span>PAYO<b>.</b></span>
-            <span>Settings & account management</span>
-          </footer>
+         
         </div>
       </main>
     </div>
