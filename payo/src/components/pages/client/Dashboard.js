@@ -87,7 +87,7 @@ function Dashboard() {
             <span className="dashboard-eyebrow">OVERVIEW</span>
 
             <h1>
-              Good morning, <strong>Elsa.</strong>
+              Good morning, <strong>John.</strong>
             </h1>
 
             <p>Here’s what’s happening with your shared expenses.</p>

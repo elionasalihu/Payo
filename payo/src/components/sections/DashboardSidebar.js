@@ -214,7 +214,7 @@ function DashboardSidebar() {
           )}
 
           <div className="dashboard-sidebar-profile">
-            <div className="dashboard-profile-avatar">AD</div>
+            <div className="dashboard-profile-avatar">JD</div>
 
             <div className="dashboard-profile-info">
               <strong>John Doe</strong>

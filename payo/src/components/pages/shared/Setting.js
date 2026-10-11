@@ -35,10 +35,10 @@ const adminTabs = [
 ];
 
 const initialProfile = {
-  firstName: "Amar",
-  lastName: "Dobreva",
-  email: "amar@example.com",
-  username: "amardobreva",
+  firstName: "John",
+  lastName: "Doe",
+  email: "john@example.com",
+  username: "johndoe",
   bio: "Managing shared expenses with Payo.",
 };
 
