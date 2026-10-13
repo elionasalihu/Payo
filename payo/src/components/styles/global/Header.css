@@ -241,6 +241,26 @@
   text-decoration: none;
 }
 
+.payo-user-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 43px;
+  height: 43px;
+  border: 1px solid #e2e8f0;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #1e293b;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.payo-user-button:hover {
+  border-color: #20b477;
+  background: #f0fdf7;
+  color: #159764;
+}
+
 /* TABLET */
 
 @media (max-width: 900px) {

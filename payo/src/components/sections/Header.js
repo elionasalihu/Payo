@@ -1,96 +1,149 @@
-import "../styles/global/Header.css";
+
 import { useState } from "react";
-import { ArrowRight, Menu, X } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { Link, useLocation } from "react-router-dom";
+import { ArrowRight, Menu, UserRound, X } from "lucide-react";
+
+import { useAuth } from "../../context/AuthContext";
+import "../styles/global/Header.css";
 
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { isAuthenticated, loading } = useAuth();
+  const location = useLocation();
 
   const closeMenu = () => setMenuOpen(false);
+
+  const navLinks = [
+    { label: "Home", href: "/" },
+    { label: "Features", href: "/#features" },
+    { label: "How it works", href: "/#how-it-works" },
+  ];
 
   return (
     <header className="payo-header">
       <div className="payo-header-inner">
-       <a href="/" className="payo-logo" aria-label="Payo home">
-      <span className="payo-logo-mark">
-        <span />
-      </span>
+        {/* Logo */}
+        <Link
+          to="/"
+          className="payo-logo"
+          onClick={closeMenu}
+          aria-label="Payo home"
+        >
+         <span>pay</span>
 
-      <span className="payo-logo-text">pay</span> <span className="payo-logo-o">o</span> <span className="payo-logo-text">.</span>
-    </a>
+<span className="payo-logo-o">o</span>
 
-        <nav className="payo-nav">
-          <a href="#features">Features</a>
-          <a href="#how-it-works">How it works</a>
-          <a href="#about">About</a>
+<span className="payo-logo-text">.</span>
+        </Link>
+
+        {/* Desktop navigation */}
+        <nav className="payo-nav" aria-label="Main navigation">
+          {navLinks.map((link) => (
+            <a
+              key={link.label}
+              href={link.href}
+              className="payo-nav-link"
+            >
+              {link.label}
+            </a>
+          ))}
         </nav>
 
+        {/* Desktop actions */}
         <div className="payo-header-actions">
-          <a href="/login" className="payo-login">
-            Log in
-          </a>
+          {!loading &&
+            (isAuthenticated ? (
+              <Link
+                to="/dashboard"
+                className="payo-user-button"
+                aria-label="Open dashboard"
+                title="Dashboard"
+              >
+                <UserRound size={21} strokeWidth={1.8} />
+              </Link>
+            ) : (
+              <>
+                <Link to="/login" className="payo-login">
+                  Log in
+                </Link>
 
-          <a href="/register" className="payo-header-cta">
-            Get started
-            <ArrowRight size={15} />
-          </a>
-
-          <button
-            className="payo-menu-button"
-            type="button"
-            aria-label={menuOpen ? "Close menu" : "Open menu"}
-            aria-expanded={menuOpen}
-            onClick={() => setMenuOpen((prev) => !prev)}
-          >
-            {menuOpen ? <X size={21} /> : <Menu size={21} />}
-          </button>
+                <Link
+                  to="/register"
+                  className="payo-header-cta"
+                >
+                  Get started
+                  <ArrowRight size={15} />
+                </Link>
+              </>
+            ))}
         </div>
+
+        {/* Mobile menu button */}
+        <button
+          type="button"
+          className="payo-menu-button"
+          onClick={() => setMenuOpen((open) => !open)}
+          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={menuOpen}
+        >
+          {menuOpen ? <X size={23} /> : <Menu size={23} />}
+        </button>
       </div>
 
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div
-            className="payo-mobile-menu"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
+      {/* Mobile navigation */}
+      {menuOpen && (
+        <div className="payo-mobile-menu">
+          <nav
+            className="payo-mobile-nav"
+            aria-label="Mobile navigation"
           >
-            <nav className="payo-mobile-nav">
-              <a href="#features" onClick={closeMenu}>
-                Features
-              </a>
-
-              <a href="#how-it-works" onClick={closeMenu}>
-                How it works
-              </a>
-
-              <a href="#about" onClick={closeMenu}>
-                About
-              </a>
-            </nav>
-
-            <div className="payo-mobile-actions">
+            {navLinks.map((link) => (
               <a
-                href="/login"
-                className="payo-mobile-login"
+                key={link.label}
+                href={link.href}
+                className="payo-mobile-link"
                 onClick={closeMenu}
               >
-                Log in
+                {link.label}
               </a>
+            ))}
+          </nav>
 
-              <a
-                href="/register"
-                className="payo-mobile-cta"
-                onClick={closeMenu}
-              >
-                Get started
-                <ArrowRight size={15} />
-              </a>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          <div className="payo-mobile-actions">
+            {!loading &&
+              (isAuthenticated ? (
+                <Link
+                  to="/dashboard"
+                  className="payo-mobile-dashboard"
+                  onClick={closeMenu}
+                >
+                  <UserRound size={19} />
+                  My dashboard
+                  <ArrowRight size={16} />
+                </Link>
+              ) : (
+                <>
+                  <Link
+                    to="/login"
+                    className="payo-mobile-login"
+                    onClick={closeMenu}
+                  >
+                    Log in
+                  </Link>
+
+                  <Link
+                    to="/register"
+                    className="payo-header-cta payo-mobile-cta"
+                    onClick={closeMenu}
+                  >
+                    Get started
+                    <ArrowRight size={15} />
+                  </Link>
+                </>
+              ))}
+          </div>
+        </div>
+      )}
     </header>
   );
 }
