@@ -1,15 +1,20 @@
+
+import { useState } from "react";
 import { motion } from "motion/react";
 import {
   Activity,
   BarChart3,
   CreditCard,
   LayoutDashboard,
+  LogOut,
   Plus,
   Settings,
   Users,
   WalletCards,
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
+import { useAuth } from "../../context/AuthContext";
 import "../styles/global/DashboardSidebar.css";
 
 const clientNavigation = [
@@ -64,13 +69,86 @@ const adminNavigation = [
 ];
 
 function DashboardSidebar() {
-  const isAdmin = window.location.pathname.startsWith("/admin");
+  const navigate = useNavigate();
+  const { user, signOut } = useAuth();
 
-  const navigation = isAdmin ? adminNavigation : clientNavigation;
+  const [loggingOut, setLoggingOut] = useState(false);
+  const [logoutError, setLogoutError] = useState("");
+
+  const pathname = window.location.pathname;
+  const isAdmin = pathname.startsWith("/admin");
+
+  const navigation = isAdmin
+    ? adminNavigation
+    : clientNavigation;
+
+  const fullName =
+    user?.user_metadata?.full_name ||
+    user?.user_metadata?.name ||
+    user?.email?.split("@")[0] ||
+    "Payo User";
+
+  const initials = fullName
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0].toUpperCase())
+    .join("");
+
+  const isActiveRoute = (item) => {
+    if (item.label === "Overview") {
+      return pathname === item.href;
+    }
+
+    return (
+      pathname === item.href ||
+      pathname.startsWith(`${item.href}/`)
+    );
+  };
+
+  async function handleLogout() {
+    if (loggingOut) return;
+
+    setLoggingOut(true);
+    setLogoutError("");
+
+    try {
+      await signOut();
+      navigate("/login", { replace: true });
+    } catch (error) {
+      console.error("Failed to sign out:", error);
+
+      setLogoutError(
+        "Couldn't sign out. Please try again."
+      );
+
+      setLoggingOut(false);
+    }
+  }
+
+  const LogoutButton = ({ mobile = false }) => (
+    <button
+      type="button"
+      className={
+        mobile
+          ? "dashboard-mobile-nav-item dashboard-mobile-logout"
+          : "dashboard-sidebar-logout"
+      }
+      onClick={handleLogout}
+      disabled={loggingOut}
+      aria-label={loggingOut ? "Signing out" : "Sign out"}
+    >
+      <LogOut size={mobile ? 20 : 17} strokeWidth={1.8} />
+
+      <span>
+        {loggingOut ? "Signing out..." : "Sign out"}
+      </span>
+    </button>
+  );
 
   return (
     <>
-      {/* DESKTOP / TABLET SIDEBAR */}
+      {/* DESKTOP SIDEBAR */}
       <aside className="dashboard-sidebar">
         <div className="dashboard-sidebar-top">
           <a
@@ -79,13 +157,15 @@ function DashboardSidebar() {
             aria-label="Payo dashboard"
           >
             <span>pay</span>
-
             <span className="payo-logo-o">o</span>
-
             <span className="payo-logo-text">.</span>
           </a>
 
-          {isAdmin && <span className="dashboard-sidebar-badge">John</span>}
+          {isAdmin && (
+            <span className="dashboard-sidebar-badge">
+              Admin
+            </span>
+          )}
         </div>
 
         <div className="dashboard-sidebar-content">
@@ -97,12 +177,7 @@ function DashboardSidebar() {
             <nav className="dashboard-sidebar-nav">
               {navigation.map((item) => {
                 const Icon = item.icon;
-
-                const isActive =
-                  window.location.pathname === item.href ||
-                  (item.label === "Overview" &&
-                    window.location.pathname ===
-                      (isAdmin ? "/admin/" : "/dashboard/"));
+                const isActive = isActiveRoute(item);
 
                 return (
                   <a
@@ -111,6 +186,9 @@ function DashboardSidebar() {
                     className={`dashboard-sidebar-link ${
                       isActive ? "active" : ""
                     }`}
+                    aria-current={
+                      isActive ? "page" : undefined
+                    }
                   >
                     {isActive && (
                       <motion.span
@@ -120,7 +198,6 @@ function DashboardSidebar() {
                     )}
 
                     <Icon size={17} strokeWidth={1.8} />
-
                     <span>{item.label}</span>
                   </a>
                 );
@@ -142,14 +219,18 @@ function DashboardSidebar() {
               </a>
 
               <div className="dashboard-sidebar-section dashboard-sidebar-groups">
-                <span className="dashboard-sidebar-label">Your groups</span>
+                <span className="dashboard-sidebar-label">
+                  Your groups
+                </span>
 
                 <div className="dashboard-sidebar-group-list">
                   <a
                     href="/dashboard/groups/trip-to-tirana"
                     className="dashboard-sidebar-group"
                   >
-                    <span className="dashboard-group-avatar">T</span>
+                    <span className="dashboard-group-avatar">
+                      T
+                    </span>
 
                     <span className="dashboard-group-info">
                       <strong>Trip to Tirana</strong>
@@ -161,7 +242,9 @@ function DashboardSidebar() {
                     href="/dashboard/groups/house-expenses"
                     className="dashboard-sidebar-group"
                   >
-                    <span className="dashboard-group-avatar">H</span>
+                    <span className="dashboard-group-avatar">
+                      H
+                    </span>
 
                     <span className="dashboard-group-info">
                       <strong>House expenses</strong>
@@ -173,7 +256,9 @@ function DashboardSidebar() {
                     href="/dashboard/groups/friday-night"
                     className="dashboard-sidebar-group"
                   >
-                    <span className="dashboard-group-avatar">F</span>
+                    <span className="dashboard-group-avatar">
+                      F
+                    </span>
 
                     <span className="dashboard-group-info">
                       <strong>Friday night</strong>
@@ -186,27 +271,36 @@ function DashboardSidebar() {
           )}
 
           {isAdmin && (
-            <>
-              <div className="dashboard-sidebar-divider" />
+            <div className="dashboard-sidebar-section">
+              <span className="dashboard-sidebar-label">
+                System
+              </span>
 
-              <div className="dashboard-sidebar-section">
-                <span className="dashboard-sidebar-label">System</span>
-
-                <a href="/admin/settings" className="dashboard-sidebar-link">
-                  <Settings size={17} strokeWidth={1.8} />
-
-                  <span>Settings</span>
-                </a>
-              </div>
-            </>
+              <a
+                href="/admin/settings"
+                className={`dashboard-sidebar-link ${
+                  pathname.startsWith("/admin/settings")
+                    ? "active"
+                    : ""
+                }`}
+              >
+                <Settings size={17} strokeWidth={1.8} />
+                <span>Settings</span>
+              </a>
+            </div>
           )}
         </div>
 
+        {/* DESKTOP SIDEBAR FOOTER */}
         <div className="dashboard-sidebar-bottom">
           {!isAdmin && (
             <a
               href="/dashboard/settings"
-              className="dashboard-sidebar-settings"
+              className={`dashboard-sidebar-settings ${
+                pathname.startsWith("/dashboard/settings")
+                  ? "active"
+                  : ""
+              }`}
             >
               <Settings size={17} strokeWidth={1.8} />
               <span>Settings</span>
@@ -214,23 +308,41 @@ function DashboardSidebar() {
           )}
 
           <div className="dashboard-sidebar-profile">
-            <div className="dashboard-profile-avatar">JD</div>
+            <div className="dashboard-profile-avatar">
+              {initials || "U"}
+            </div>
 
             <div className="dashboard-profile-info">
-              <strong>John Doe</strong>
-
-              <span>{isAdmin ? "Administrator" : "john@example.com"}</span>
+              <strong>{fullName}</strong>
+              <span>
+                {isAdmin
+                  ? "Administrator"
+                  : user?.email || "Signed in"}
+              </span>
             </div>
           </div>
+
+          {logoutError && (
+            <p
+              className="dashboard-sidebar-logout-error"
+              role="alert"
+            >
+              {logoutError}
+            </p>
+          )}
+
+          <LogoutButton />
         </div>
       </aside>
 
-      {/* MOBILE BOTTOM NAV */}
-      <nav className="dashboard-mobile-nav">
+      {/* MOBILE / TABLET BOTTOM NAVIGATION */}
+      <nav
+        className="dashboard-mobile-nav"
+        aria-label="Mobile navigation"
+      >
         {navigation.slice(0, 4).map((item) => {
           const Icon = item.icon;
-
-          const isActive = window.location.pathname === item.href;
+          const isActive = isActiveRoute(item);
 
           return (
             <a
@@ -239,8 +351,14 @@ function DashboardSidebar() {
               className={`dashboard-mobile-nav-item ${
                 isActive ? "active" : ""
               }`}
+              aria-current={
+                isActive ? "page" : undefined
+              }
             >
-              <Icon size={20} strokeWidth={isActive ? 2 : 1.7} />
+              <Icon
+                size={20}
+                strokeWidth={isActive ? 2 : 1.7}
+              />
 
               <span>{item.label}</span>
             </a>
@@ -251,11 +369,24 @@ function DashboardSidebar() {
           <a
             href="/dashboard/expenses/new"
             className="dashboard-mobile-nav-add"
+            aria-label="Add expense"
           >
             <Plus size={20} strokeWidth={2.2} />
           </a>
         )}
+
+        <LogoutButton mobile />
       </nav>
+
+      {/* MOBILE LOGOUT ERROR */}
+      {logoutError && (
+        <div
+          className="dashboard-mobile-logout-error"
+          role="alert"
+        >
+          {logoutError}
+        </div>
+      )}
     </>
   );
 }

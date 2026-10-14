@@ -1,3 +1,8 @@
+
+/* =========================================
+   SIDEBAR
+========================================= */
+
 .dashboard-sidebar {
   position: fixed;
   top: 0;
@@ -6,6 +11,7 @@
 
   width: 250px;
   height: 100vh;
+  height: 100dvh;
 
   display: flex;
   flex-direction: column;
@@ -22,10 +28,12 @@
 
 .dashboard-sidebar-top {
   height: 76px;
+  min-height: 76px;
   padding: 0 22px;
 
   display: flex;
   align-items: center;
+  justify-content: space-between;
 
   border-bottom: 1px solid #f0f1ef;
 }
@@ -45,19 +53,39 @@
   text-decoration: none;
 }
 
-.dashboard-sidebar-logo b {
+.dashboard-sidebar-logo b,
+.dashboard-sidebar-logo .payo-logo-text {
   color: #20b86b;
   font-weight: 700;
 }
 
+.dashboard-sidebar-badge {
+  padding: 4px 7px;
+
+  color: #159456;
+  background: #eaf8f0;
+
+  border-radius: 5px;
+
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
 /* =========================================
-   CONTENT
+   SIDEBAR CONTENT
 ========================================= */
 
 .dashboard-sidebar-content {
   flex: 1;
+  min-height: 0;
   padding: 26px 14px;
   overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.dashboard-sidebar-section {
+  margin-bottom: 12px;
 }
 
 .dashboard-sidebar-label {
@@ -81,7 +109,7 @@
 }
 
 /* =========================================
-   NAV LINKS
+   NAVIGATION LINKS
 ========================================= */
 
 .dashboard-sidebar-link {
@@ -169,6 +197,7 @@
 .dashboard-sidebar-create-icon {
   width: 24px;
   height: 24px;
+  flex-shrink: 0;
 
   display: flex;
   align-items: center;
@@ -210,7 +239,6 @@
 .dashboard-group-avatar {
   width: 29px;
   height: 29px;
-
   flex: 0 0 29px;
 
   display: flex;
@@ -258,8 +286,10 @@
 ========================================= */
 
 .dashboard-sidebar-bottom {
+  flex-shrink: 0;
   padding: 14px;
 
+  background: #ffffff;
   border-top: 1px solid #f0f1ef;
 }
 
@@ -285,10 +315,15 @@
     background 180ms ease;
 }
 
-.dashboard-sidebar-settings:hover {
+.dashboard-sidebar-settings:hover,
+.dashboard-sidebar-settings.active {
   color: #111827;
   background: #f7f8f6;
 }
+
+/* =========================================
+   PROFILE
+========================================= */
 
 .dashboard-sidebar-profile {
   display: flex;
@@ -304,7 +339,6 @@
 .dashboard-profile-avatar {
   width: 32px;
   height: 32px;
-
   flex: 0 0 32px;
 
   display: flex;
@@ -322,6 +356,7 @@
 
 .dashboard-profile-info {
   min-width: 0;
+  flex: 1;
 
   display: flex;
   flex-direction: column;
@@ -353,10 +388,71 @@
 }
 
 /* =========================================
-   MOBILE NAV
+   DESKTOP LOGOUT BUTTON
+========================================= */
+
+.dashboard-sidebar-logout {
+  width: 100%;
+  min-height: 40px;
+  margin-top: 8px;
+  padding: 0 10px;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  color: #667085;
+  background: transparent;
+
+  border: 1px solid transparent;
+  border-radius: 8px;
+
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    color 180ms ease,
+    background 180ms ease,
+    border-color 180ms ease;
+}
+
+.dashboard-sidebar-logout:hover {
+  color: #dc4545;
+  background: #fff1f0;
+  border-color: #ffe1df;
+}
+
+.dashboard-sidebar-logout:focus-visible {
+  outline: 2px solid #20b86b;
+  outline-offset: 2px;
+}
+
+.dashboard-sidebar-logout:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.dashboard-sidebar-logout-error {
+  margin: 8px 0 0;
+  color: #dc4545;
+  font-size: 11px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+/* =========================================
+   MOBILE NAVIGATION - HIDDEN BY DEFAULT
 ========================================= */
 
 .dashboard-mobile-nav {
+  display: none;
+}
+
+.dashboard-mobile-logout-error {
   display: none;
 }
 
@@ -368,10 +464,19 @@
   .dashboard-sidebar {
     width: 220px;
   }
+
+  .dashboard-sidebar-content {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+
+  .dashboard-sidebar-bottom {
+    padding: 12px;
+  }
 }
 
 /* =========================================
-   MOBILE
+   MOBILE NAVIGATION
 ========================================= */
 
 @media (max-width: 760px) {
@@ -382,30 +487,38 @@
   .dashboard-mobile-nav {
     position: fixed;
     left: 0;
+    right: 0;
     bottom: 0;
     z-index: 1000;
 
+    box-sizing: border-box;
     width: 100%;
-    height: 68px;
+    min-height: 68px;
 
     display: flex;
     align-items: center;
     justify-content: space-around;
+    gap: 2px;
 
-    padding: 6px 12px calc(6px + env(safe-area-inset-bottom));
+    padding: 6px 8px
+      calc(6px + env(safe-area-inset-bottom));
 
-    background: rgba(255, 255, 255, 0.96);
+    background: rgba(255, 255, 255, 0.97);
     border-top: 1px solid #e7e9e5;
 
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
+
+    font-family: "Manrope", sans-serif;
   }
 
   .dashboard-mobile-nav-item {
     position: relative;
 
-    width: 62px;
+    flex: 1 1 0;
+    min-width: 0;
     height: 52px;
+    padding: 4px 1px;
 
     display: flex;
     flex-direction: column;
@@ -414,17 +527,30 @@
     gap: 4px;
 
     color: #98a2b3;
+    background: transparent;
 
+    border: none;
     border-radius: 10px;
 
+    font-family: inherit;
     font-size: 9px;
     font-weight: 600;
+    line-height: 1.2;
 
     text-decoration: none;
+    text-align: center;
+    white-space: nowrap;
+
+    cursor: pointer;
 
     transition:
       color 180ms ease,
       background 180ms ease;
+  }
+
+  .dashboard-mobile-nav-item:hover {
+    color: #344054;
+    background: #f7f8f6;
   }
 
   .dashboard-mobile-nav-item.active {
@@ -444,9 +570,12 @@
     border-radius: 0 0 3px 3px;
   }
 
+  /* Add expense button */
+
   .dashboard-mobile-nav-add {
-    width: 42px;
-    height: 42px;
+    width: 40px;
+    height: 40px;
+    flex: 0 0 40px;
 
     display: flex;
     align-items: center;
@@ -459,7 +588,7 @@
 
     text-decoration: none;
 
-    box-shadow: 0 4px 12px rgba(17, 24, 39, 0.14);
+    box-shadow: 0 4px 12px rgba(17, 24, 39, 0.12);
 
     transition:
       transform 180ms ease,
@@ -470,27 +599,116 @@
     background: #1d2636;
     transform: translateY(-2px);
   }
+
+  /* Logout button inside mobile navigation */
+
+  .dashboard-mobile-logout {
+    flex: 1 1 0;
+    min-width: 0;
+
+    color: #667085;
+    background: transparent;
+
+    border: none;
+    border-radius: 10px;
+
+    font-family: inherit;
+    cursor: pointer;
+  }
+
+  .dashboard-mobile-logout:hover {
+    color: #dc4545;
+    background: #fff1f0;
+  }
+
+  .dashboard-mobile-logout:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+
+  .dashboard-mobile-logout:focus-visible {
+    outline: 2px solid #20b86b;
+    outline-offset: -2px;
+  }
+
+  /* Keep mobile error messages above the bottom navigation */
+
+  .dashboard-mobile-logout-error {
+    position: fixed;
+    right: 12px;
+    bottom: calc(78px + env(safe-area-inset-bottom));
+    left: 12px;
+    z-index: 1100;
+
+    display: block;
+    padding: 12px 14px;
+
+    color: #dc4545;
+    background: #fff1f0;
+
+    border: 1px solid #ffe1df;
+    border-radius: 10px;
+
+    font-family: "Manrope", sans-serif;
+    font-size: 12px;
+    line-height: 1.5;
+
+    overflow-wrap: anywhere;
+
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  }
 }
 
-.dashboard-sidebar-top {
-  justify-content: space-between;
+/* =========================================
+   SMALL MOBILE SCREENS
+========================================= */
+
+@media (max-width: 380px) {
+  .dashboard-mobile-nav {
+    gap: 0;
+    padding-right: 4px;
+    padding-left: 4px;
+  }
+
+  .dashboard-mobile-nav-item {
+    font-size: 8px;
+    gap: 3px;
+  }
+
+  .dashboard-mobile-nav-item svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .dashboard-mobile-logout {
+    font-size: 8px;
+  }
+
+  .dashboard-mobile-logout svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .dashboard-mobile-nav-add {
+    width: 34px;
+    height: 34px;
+    flex-basis: 34px;
+    border-radius: 9px;
+  }
 }
 
-.dashboard-sidebar-badge {
-  padding: 4px 7px;
+/* =========================================
+   ACCESSIBILITY
+========================================= */
 
-  color: #159456;
-  background: #eaf8f0;
-
-  border-radius: 5px;
-
-  font-size: 8px;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-}
-
-.dashboard-sidebar-divider {
-  height: 1px;
-  margin: 27px 10px;
-  background: #f0f1ef;
+@media (prefers-reduced-motion: reduce) {
+  .dashboard-sidebar-link,
+  .dashboard-sidebar-create,
+  .dashboard-sidebar-group,
+  .dashboard-sidebar-settings,
+  .dashboard-sidebar-logout,
+  .dashboard-mobile-nav-item,
+  .dashboard-mobile-nav-add {
+    transition: none;
+  }
 }
