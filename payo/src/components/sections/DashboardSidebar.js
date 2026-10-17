@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { motion } from "motion/react";
 import {
@@ -12,7 +11,7 @@ import {
   Users,
   WalletCards,
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import { useAuth } from "../../context/AuthContext";
 import "../styles/global/DashboardSidebar.css";
@@ -70,17 +69,14 @@ const adminNavigation = [
 
 function DashboardSidebar() {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const { user, signOut } = useAuth();
 
   const [loggingOut, setLoggingOut] = useState(false);
   const [logoutError, setLogoutError] = useState("");
 
-  const pathname = window.location.pathname;
   const isAdmin = pathname.startsWith("/admin");
-
-  const navigation = isAdmin
-    ? adminNavigation
-    : clientNavigation;
+  const navigation = isAdmin ? adminNavigation : clientNavigation;
 
   const fullName =
     user?.user_metadata?.full_name ||
@@ -113,53 +109,57 @@ function DashboardSidebar() {
     setLogoutError("");
 
     try {
-      await signOut();
+      const result = await signOut();
+
+      // Supabase signOut can return an error instead of throwing.
+      if (result?.error) {
+        throw result.error;
+      }
+
       navigate("/login", { replace: true });
     } catch (error) {
       console.error("Failed to sign out:", error);
-
-      setLogoutError(
-        "Couldn't sign out. Please try again."
-      );
-
+      setLogoutError("Couldn't sign out. Please try again.");
       setLoggingOut(false);
     }
   }
 
-  const LogoutButton = ({ mobile = false }) => (
-    <button
-      type="button"
-      className={
-        mobile
-          ? "dashboard-mobile-nav-item dashboard-mobile-logout"
-          : "dashboard-sidebar-logout"
-      }
-      onClick={handleLogout}
-      disabled={loggingOut}
-      aria-label={loggingOut ? "Signing out" : "Sign out"}
-    >
-      <LogOut size={mobile ? 20 : 17} strokeWidth={1.8} />
-
-      <span>
-        {loggingOut ? "Signing out..." : "Sign out"}
-      </span>
-    </button>
-  );
+  function LogoutButton({ mobile = false }) {
+    return (
+      <button
+        type="button"
+        className={
+          mobile
+            ? "dashboard-mobile-nav-item dashboard-mobile-logout"
+            : "dashboard-sidebar-logout"
+        }
+        onClick={handleLogout}
+        disabled={loggingOut}
+        aria-label={loggingOut ? "Signing out" : "Sign out"}
+      >
+        <LogOut
+          size={mobile ? 20 : 17}
+          strokeWidth={1.8}
+        />
+        <span>{loggingOut ? "Signing out..." : "Sign out"}</span>
+      </button>
+    );
+  }
 
   return (
     <>
-      {/* DESKTOP SIDEBAR */}
+      {/* Desktop sidebar */}
       <aside className="dashboard-sidebar">
         <div className="dashboard-sidebar-top">
-          <a
-            href={isAdmin ? "/admin" : "/dashboard"}
+          <Link
+            to={isAdmin ? "/admin" : "/dashboard"}
             className="dashboard-sidebar-logo"
             aria-label="Payo dashboard"
           >
             <span>pay</span>
             <span className="payo-logo-o">o</span>
             <span className="payo-logo-text">.</span>
-          </a>
+          </Link>
 
           {isAdmin && (
             <span className="dashboard-sidebar-badge">
@@ -180,15 +180,13 @@ function DashboardSidebar() {
                 const isActive = isActiveRoute(item);
 
                 return (
-                  <a
+                  <Link
                     key={item.label}
-                    href={item.href}
+                    to={item.href}
                     className={`dashboard-sidebar-link ${
                       isActive ? "active" : ""
                     }`}
-                    aria-current={
-                      isActive ? "page" : undefined
-                    }
+                    aria-current={isActive ? "page" : undefined}
                   >
                     {isActive && (
                       <motion.span
@@ -199,7 +197,7 @@ function DashboardSidebar() {
 
                     <Icon size={17} strokeWidth={1.8} />
                     <span>{item.label}</span>
-                  </a>
+                  </Link>
                 );
               })}
             </nav>
@@ -207,16 +205,15 @@ function DashboardSidebar() {
 
           {!isAdmin && (
             <>
-              <a
-                href="/dashboard/expenses/new"
+              <Link
+                to="/dashboard/expenses/new"
                 className="dashboard-sidebar-create"
               >
                 <span className="dashboard-sidebar-create-icon">
                   <Plus size={16} strokeWidth={2.2} />
                 </span>
-
                 <span>Add expense</span>
-              </a>
+              </Link>
 
               <div className="dashboard-sidebar-section dashboard-sidebar-groups">
                 <span className="dashboard-sidebar-label">
@@ -224,47 +221,38 @@ function DashboardSidebar() {
                 </span>
 
                 <div className="dashboard-sidebar-group-list">
-                  <a
-                    href="/dashboard/groups/trip-to-tirana"
+                  <Link
+                    to="/dashboard/groups"
                     className="dashboard-sidebar-group"
                   >
-                    <span className="dashboard-group-avatar">
-                      T
-                    </span>
-
+                    <span className="dashboard-group-avatar">T</span>
                     <span className="dashboard-group-info">
                       <strong>Trip to Tirana</strong>
-                      <small>4 members</small>
+                      <small>View your groups</small>
                     </span>
-                  </a>
+                  </Link>
 
-                  <a
-                    href="/dashboard/groups/house-expenses"
+                  <Link
+                    to="/dashboard/groups"
                     className="dashboard-sidebar-group"
                   >
-                    <span className="dashboard-group-avatar">
-                      H
-                    </span>
-
+                    <span className="dashboard-group-avatar">H</span>
                     <span className="dashboard-group-info">
                       <strong>House expenses</strong>
-                      <small>3 members</small>
+                      <small>View your groups</small>
                     </span>
-                  </a>
+                  </Link>
 
-                  <a
-                    href="/dashboard/groups/friday-night"
+                  <Link
+                    to="/dashboard/groups"
                     className="dashboard-sidebar-group"
                   >
-                    <span className="dashboard-group-avatar">
-                      F
-                    </span>
-
+                    <span className="dashboard-group-avatar">F</span>
                     <span className="dashboard-group-info">
                       <strong>Friday night</strong>
-                      <small>5 members</small>
+                      <small>View your groups</small>
                     </span>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </>
@@ -276,26 +264,31 @@ function DashboardSidebar() {
                 System
               </span>
 
-              <a
-                href="/admin/settings"
+              <Link
+                to="/admin/settings"
                 className={`dashboard-sidebar-link ${
                   pathname.startsWith("/admin/settings")
                     ? "active"
                     : ""
                 }`}
+                aria-current={
+                  pathname.startsWith("/admin/settings")
+                    ? "page"
+                    : undefined
+                }
               >
                 <Settings size={17} strokeWidth={1.8} />
                 <span>Settings</span>
-              </a>
+              </Link>
             </div>
           )}
         </div>
 
-        {/* DESKTOP SIDEBAR FOOTER */}
+        {/* Sidebar footer */}
         <div className="dashboard-sidebar-bottom">
           {!isAdmin && (
-            <a
-              href="/dashboard/settings"
+            <Link
+              to="/dashboard/settings"
               className={`dashboard-sidebar-settings ${
                 pathname.startsWith("/dashboard/settings")
                   ? "active"
@@ -304,7 +297,7 @@ function DashboardSidebar() {
             >
               <Settings size={17} strokeWidth={1.8} />
               <span>Settings</span>
-            </a>
+            </Link>
           )}
 
           <div className="dashboard-sidebar-profile">
@@ -335,7 +328,7 @@ function DashboardSidebar() {
         </div>
       </aside>
 
-      {/* MOBILE / TABLET BOTTOM NAVIGATION */}
+      {/* Mobile / tablet bottom navigation */}
       <nav
         className="dashboard-mobile-nav"
         aria-label="Mobile navigation"
@@ -345,40 +338,37 @@ function DashboardSidebar() {
           const isActive = isActiveRoute(item);
 
           return (
-            <a
+            <Link
               key={item.label}
-              href={item.href}
+              to={item.href}
               className={`dashboard-mobile-nav-item ${
                 isActive ? "active" : ""
               }`}
-              aria-current={
-                isActive ? "page" : undefined
-              }
+              aria-current={isActive ? "page" : undefined}
             >
               <Icon
                 size={20}
                 strokeWidth={isActive ? 2 : 1.7}
               />
-
               <span>{item.label}</span>
-            </a>
+            </Link>
           );
         })}
 
         {!isAdmin && (
-          <a
-            href="/dashboard/expenses/new"
+          <Link
+            to="/dashboard/expenses/new"
             className="dashboard-mobile-nav-add"
             aria-label="Add expense"
           >
             <Plus size={20} strokeWidth={2.2} />
-          </a>
+          </Link>
         )}
 
         <LogoutButton mobile />
       </nav>
 
-      {/* MOBILE LOGOUT ERROR */}
+      {/* Mobile logout error */}
       {logoutError && (
         <div
           className="dashboard-mobile-logout-error"

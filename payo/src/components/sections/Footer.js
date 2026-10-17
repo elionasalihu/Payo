@@ -7,8 +7,11 @@ function Logo() {
         <span />
       </span>
 
-      <span className="payo-logo-text">pay</span> <span className="payo-logo-o">o</span> <span className="payo-logo-text">.</span>
-    </a>
+<span>pay</span>
+
+<span className="payo-logo-o">o</span>
+
+<span className="payo-logo-text">.</span>    </a>
   );
 }
 

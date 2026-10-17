@@ -1,161 +1,243 @@
 
-import { ArrowRight, Eye, EyeOff, Lock, Mail } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
+import { Eye, EyeOff, ArrowRight } from "lucide-react";
 
 import { useAuth } from "../../../context/AuthContext";
+import { supabase } from "../../../lib/supabaseClient";
 import "../../styles/auth/Login.css";
 
 function Login() {
-  const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
+  const { signIn } = useAuth();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [submitting, setSubmitting] = useState(false);
-
-  const { signIn } = useAuth();
-  const navigate = useNavigate();
 
   async function handleSubmit(event) {
     event.preventDefault();
+
+    if (loading) return;
+
+    setLoading(true);
     setError("");
 
-    if (!email.trim() || !password) {
-      setError("Please enter your email and password.");
-      return;
-    }
-
     try {
-      setSubmitting(true);
-
-      await signIn({
+      // Authenticate the user through Supabase.
+      const result = await signIn({
         email: email.trim(),
         password,
       });
 
-      navigate("/dashboard", { replace: true });
+      // Support either a raw Supabase response or a user object.
+      const user =
+        result?.user ??
+        result?.data?.user ??
+        result?.session?.user ??
+        result?.data?.session?.user;
+
+      if (!user?.id) {
+        throw new Error(
+          "Login succeeded, but the authenticated user could not be retrieved. Please try again."
+        );
+      }
+
+      // Read the role assigned to this account.
+      const { data: roleRecord, error: roleError } =
+        await supabase
+          .from("user_roles")
+          .select("role")
+          .eq("user_id", user.id)
+          .maybeSingle();
+
+      if (roleError) {
+        throw new Error(
+          "We couldn't verify your account permissions. Please try again."
+        );
+      }
+
+      // Default accounts without an admin role are regular users.
+      if (roleRecord?.role === "admin") {
+        navigate("/admin", { replace: true });
+      } else {
+        navigate("/dashboard", { replace: true });
+      }
     } catch (err) {
+      console.error("Login failed:", err);
+
       setError(
-        err.message === "Invalid login credentials"
-          ? "Incorrect email or password. Please try again."
-          : err.message || "Unable to sign in. Please try again."
+        err?.message === "Invalid login credentials"
+          ? "Incorrect email or password."
+          : err?.message ||
+              "Something went wrong. Please try again."
       );
     } finally {
-      setSubmitting(false);
+      setLoading(false);
     }
   }
 
   return (
     <main className="auth-page">
       <div className="auth-shell">
-        <div className="auth-brand">
-          <Link to="/" className="auth-logo">
+        {/* Brand */}
+        <Link to="/" className="auth-brand">
+          <span className="auth-logo">
             <span>pay</span>
             <span className="payo-logo-o">o</span>
             <span className="payo-logo-text">.</span>
-          </Link>
-        </div>
+          </span>
+        </Link>
 
+        {/* Login card */}
         <section className="auth-card">
           <div className="auth-heading">
-            <span className="auth-eyebrow">WELCOME BACK</span>
+            <span className="auth-eyebrow">
+              WELCOME BACK
+            </span>
 
-            <h1>Sign in to Payo.</h1>
+            <h1>Sign in to Payo</h1>
 
             <p>
-              Manage your shared expenses and keep everything
-              in one place.
+              Manage shared expenses and keep everything
+              organized in one place.
             </p>
           </div>
 
-          <form className="auth-form" onSubmit={handleSubmit}>
+          <form
+            className="auth-form"
+            onSubmit={handleSubmit}
+          >
+            {/* Email */}
             <div className="auth-field">
-              <label htmlFor="email">Email address</label>
+              <label
+                className="auth-label-row"
+                htmlFor="login-email"
+              >
+                Email address
+              </label>
 
               <div className="auth-input-wrapper">
-                <Mail size={17} />
-
                 <input
-                  id="email"
+                  id="login-email"
+                  className="auth-input"
                   type="email"
+                  name="email"
                   placeholder="you@example.com"
                   autoComplete="email"
                   value={email}
-                  onChange={(event) => setEmail(event.target.value)}
+                  onChange={(event) =>
+                    setEmail(event.target.value)
+                  }
                   required
+                  disabled={loading}
                 />
               </div>
             </div>
 
+            {/* Password */}
             <div className="auth-field">
               <div className="auth-label-row">
-                <label htmlFor="password">Password</label>
+                <label htmlFor="login-password">
+                  Password
+                </label>
 
-                <Link to="/forgot-password">
+                <Link
+                  to="/forgot-password"
+                  className="auth-forgot-link"
+                >
                   Forgot password?
                 </Link>
               </div>
 
               <div className="auth-input-wrapper">
-                <Lock size={17} />
-
                 <input
-                  id="password"
+                  id="login-password"
+                  className="auth-input"
                   type={showPassword ? "text" : "password"}
+                  name="password"
                   placeholder="Enter your password"
                   autoComplete="current-password"
                   value={password}
-                  onChange={(event) => setPassword(event.target.value)}
+                  onChange={(event) =>
+                    setPassword(event.target.value)
+                  }
                   required
+                  disabled={loading}
                 />
 
                 <button
                   type="button"
                   className="auth-password-toggle"
-                  onClick={() => setShowPassword((prev) => !prev)}
-                  aria-label={
-                    showPassword ? "Hide password" : "Show password"
+                  onClick={() =>
+                    setShowPassword((previous) => !previous)
                   }
+                  aria-label={
+                    showPassword
+                      ? "Hide password"
+                      : "Show password"
+                  }
+                  aria-pressed={showPassword}
+                  disabled={loading}
                 >
                   {showPassword ? (
-                    <EyeOff size={17} />
+                    <EyeOff size={18} />
                   ) : (
-                    <Eye size={17} />
+                    <Eye size={18} />
                   )}
                 </button>
               </div>
             </div>
 
+            {/* Error message */}
             {error && (
-              <p className="auth-error" role="alert">
+              <div
+                className="auth-error"
+                role="alert"
+                aria-live="polite"
+              >
                 {error}
-              </p>
+              </div>
             )}
 
+            {/* Submit */}
             <button
               type="submit"
               className="auth-submit"
-              disabled={submitting}
+              disabled={
+                loading ||
+                !email.trim() ||
+                !password
+              }
             >
-              {submitting ? "Signing in..." : "Sign in"}
-              {!submitting && <ArrowRight size={16} />}
+              <span>
+                {loading ? "Signing in..." : "Sign in"}
+              </span>
+
+              {!loading && (
+                <ArrowRight size={17} strokeWidth={2} />
+              )}
             </button>
           </form>
 
           <div className="auth-divider">
-            <span>or</span>
+            <span>NEW TO PAYO?</span>
           </div>
 
           <p className="auth-switch">
             Don't have an account?{" "}
-            <Link to="/register">Create one</Link>
+            <Link to="/register">Create an account</Link>
           </p>
         </section>
 
-        <p className="auth-footer">
-          © 2026 Payo. All rights reserved.
-        </p>
+        <footer className="auth-footer">
+          <span>
+            © {new Date().getFullYear()} Payo. All rights
+            reserved.
+          </span>
+        </footer>
       </div>
     </main>
   );

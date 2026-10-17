@@ -1,648 +1,712 @@
-.dashboard-page {
+
+/* =========================================
+   PAYO CLIENT DASHBOARD
+   ========================================= */
+
+.dashboard-layout {
+  --sidebar-width: 250px;
+
+  display: flex;
   min-height: 100vh;
+  width: 100%;
   background: #f8f9f7;
-  color: #111827;
+  color: #20251f;
   font-family: "Manrope", sans-serif;
 }
 
+/* =========================================
+   MAIN CONTENT
+   ========================================= */
+
 .dashboard-main {
+  flex: 1;
+  min-width: 0;
+  width: calc(100% - var(--sidebar-width));
+  margin-left: var(--sidebar-width);
   min-height: 100vh;
-  margin-left: 250px;
-  padding: 42px 42px 60px;
+  padding: 36px 40px;
+  box-sizing: border-box;
+  overflow-x: clip;
+}
+
+.dashboard-content {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
 }
 
 /* =========================================
    HEADER
-========================================= */
+   ========================================= */
 
 .dashboard-header {
-  max-width: 1280px;
-  margin: 0 auto 34px;
-
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: space-between;
-  gap: 30px;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.dashboard-header > div {
+  min-width: 0;
 }
 
 .dashboard-eyebrow {
-  display: block;
-
-  margin-bottom: 9px;
-
-  color: #20b86b;
-
-  font-size: 9px;
+  margin: 0 0 10px;
+  color: #7b8478;
+  font-size: 11px;
   font-weight: 800;
-  letter-spacing: 0.13em;
+  letter-spacing: 1.6px;
 }
 
 .dashboard-header h1 {
   margin: 0;
-
-  color: #111827;
-
-  font-size: clamp(27px, 3vw, 34px);
-  font-weight: 500;
-  letter-spacing: -0.045em;
-  line-height: 1.1;
+  color: #20251f;
+  font-size: clamp(25px, 2.2vw, 34px);
+  line-height: 1.25;
+  font-weight: 750;
+  letter-spacing: -1.2px;
+  overflow-wrap: anywhere;
 }
 
-.dashboard-header h1 strong {
-  font-weight: 700;
+.dashboard-header > div > p:last-child {
+  margin: 10px 0 0;
+  color: #858b82;
+  font-size: 14px;
+  line-height: 1.6;
 }
 
-.dashboard-header p {
-  margin: 9px 0 0;
-
-  color: #667085;
-
-  font-size: 12px;
-  font-weight: 500;
-}
-
-/* =========================================
-   ADD BUTTON
-========================================= */
-
-.dashboard-header-add {
+.dashboard-add-button {
   display: inline-flex;
+  flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-
-  min-height: 41px;
-  padding: 0 15px;
-
-  background: #111827;
-  color: #ffffff;
-
-  border: 0;
-  border-radius: 8px;
-
-  font-family: "Manrope", sans-serif;
-  font-size: 11px;
+  gap: 9px;
+  min-height: 44px;
+  padding: 0 18px;
+  border: 1px solid #242b23;
+  border-radius: 10px;
+  background: #242b23;
+  color: #fff;
+  font-size: 13px;
   font-weight: 700;
-
-  cursor: pointer;
-
+  text-decoration: none;
   transition:
-    background 180ms ease,
-    transform 180ms ease;
+    background 0.2s ease,
+    transform 0.2s ease;
 }
 
-.dashboard-header-add:hover {
-  background: #1d2636;
+.dashboard-add-button:hover {
+  background: #394337;
   transform: translateY(-1px);
 }
 
 /* =========================================
    BALANCE CARDS
-========================================= */
+   ========================================= */
 
 .dashboard-balance-grid {
-  max-width: 1280px;
-  margin: 0 auto 24px;
-
   display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr;
-  gap: 14px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  margin-bottom: 28px;
 }
 
 .dashboard-balance-card {
-  min-height: 145px;
-  padding: 19px;
-
-  background: #ffffff;
-  border: 1px solid #e7e9e5;
-  border-radius: 12px;
+  min-width: 0;
+  padding: 24px;
+  border: 1px solid #e9ece6;
+  border-radius: 16px;
+  background: #fff;
+  box-sizing: border-box;
+  box-shadow: 0 2px 8px rgb(31 41 29 / 3%);
 }
 
-.dashboard-balance-main {
-  background: #111827;
-  border-color: #111827;
-  color: #ffffff;
+.dashboard-balance-primary {
+  border-color: #dcebd5;
+  background: #f0f7eb;
 }
 
 .dashboard-card-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  color: #667085;
-
-  font-size: 10px;
-  font-weight: 700;
+  gap: 12px;
 }
 
-.dashboard-balance-main .dashboard-card-top {
-  color: #98a2b3;
+.dashboard-card-top > span {
+  color: #70786d;
+  font-size: 13px;
+  font-weight: 600;
 }
 
-.dashboard-card-icon {
-  width: 30px;
-  height: 30px;
-
+.dashboard-balance-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-
-  color: #667085;
-  background: #f5f6f4;
-
-  border-radius: 7px;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 11px;
+  background: #f1f3ef;
+  color: #3b4537;
 }
 
-.dashboard-card-icon-green {
-  color: #20b86b;
-  background: #eaf8f0;
+.dashboard-icon-red {
+  background: #fff0ed;
+  color: #c85d4e;
 }
 
-.dashboard-card-icon-red {
-  color: #d65c5c;
-  background: #fff0f0;
+.dashboard-icon-green {
+  background: #eaf6e5;
+  color: #579344;
 }
 
-.dashboard-balance-value {
-  margin-top: 22px;
-
-  font-size: 32px;
-  font-weight: 600;
-  letter-spacing: -0.05em;
-  line-height: 1;
+.dashboard-balance-card h2 {
+  margin: 22px 0 8px;
+  color: #222820;
+  font-size: clamp(24px, 2vw, 32px);
+  font-weight: 800;
+  letter-spacing: -1px;
+  overflow-wrap: anywhere;
 }
 
-.dashboard-small-value {
-  margin-top: 25px;
-
-  color: #111827;
-
-  font-size: 25px;
-  font-weight: 600;
-  letter-spacing: -0.045em;
-  line-height: 1;
-}
-
-.dashboard-card-description {
-  margin: 9px 0 0;
-
-  color: #98a2b3;
-
-  font-size: 9px;
-  font-weight: 500;
-}
-
-.dashboard-balance-footer {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-
-  margin-top: 12px;
-
-  color: #98a2b3;
-
-  font-size: 9px;
-  font-weight: 500;
-}
-
-.dashboard-positive {
-  color: #20b86b;
-}
-
-.dashboard-balance-main .dashboard-positive {
-  display: inline-flex;
-  align-items: center;
-  gap: 3px;
+.dashboard-balance-card > p {
+  margin: 0;
+  color: #858b82;
+  font-size: 12px;
+  line-height: 1.6;
 }
 
 /* =========================================
-   CONTENT GRID
-========================================= */
+   CONTENT PANELS
+   ========================================= */
 
-.dashboard-content-grid {
-  max-width: 1280px;
-  margin: 0 auto;
-
+.dashboard-sections-grid {
   display: grid;
-  grid-template-columns: 1.55fr 1fr;
-  gap: 14px;
+  grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.9fr);
+  align-items: start;
+  gap: 22px;
 }
-
-/* =========================================
-   PANELS
-========================================= */
 
 .dashboard-panel {
-  background: #ffffff;
-  border: 1px solid #e7e9e5;
-  border-radius: 12px;
-  overflow: hidden;
+  min-width: 0;
+  padding: 24px;
+  border: 1px solid #e9ece6;
+  border-radius: 16px;
+  background: #fff;
+  box-sizing: border-box;
+  box-shadow: 0 2px 8px rgb(31 41 29 / 3%);
 }
 
 .dashboard-panel-header {
-  min-height: 78px;
-  padding: 17px 19px;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  border-bottom: 1px solid #f0f1ef;
+  gap: 12px;
+  margin-bottom: 22px;
 }
 
 .dashboard-panel-header h2 {
   margin: 0;
-
-  color: #111827;
-
-  font-size: 13px;
-  font-weight: 750;
-  letter-spacing: -0.02em;
+  color: #252a23;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.4px;
 }
 
 .dashboard-panel-header p {
-  margin: 5px 0 0;
-
-  color: #98a2b3;
-
-  font-size: 9px;
-  font-weight: 500;
+  margin: 6px 0 0;
+  color: #8a9087;
+  font-size: 12px;
+  line-height: 1.5;
 }
 
-.dashboard-panel-header a {
+.dashboard-view-link {
   display: inline-flex;
+  flex-shrink: 0;
   align-items: center;
-  gap: 2px;
-
-  color: #667085;
-
-  font-size: 10px;
+  gap: 3px;
+  color: #5b8d49;
+  font-size: 12px;
   font-weight: 700;
-
   text-decoration: none;
-
-  transition: color 180ms ease;
 }
 
-.dashboard-panel-header a:hover {
-  color: #20b86b;
+.dashboard-view-link:hover {
+  color: #315e28;
 }
 
 /* =========================================
-   EXPENSES
-========================================= */
+   RECENT EXPENSES
+   ========================================= */
 
-.dashboard-expense-list {
+.dashboard-expenses-list {
   display: flex;
   flex-direction: column;
 }
 
-.dashboard-expense {
-  min-height: 67px;
-  padding: 10px 19px;
-
+.dashboard-expense-row {
   display: flex;
   align-items: center;
-  gap: 11px;
-
-  border-bottom: 1px solid #f0f1ef;
+  gap: 13px;
+  min-width: 0;
+  padding: 16px 0;
+  border-bottom: 1px solid #f0f1ee;
 }
 
-.dashboard-expense:last-child {
-  border-bottom: 0;
+.dashboard-expense-row:first-child {
+  padding-top: 0;
 }
 
-.dashboard-expense-icon {
-  width: 33px;
-  height: 33px;
+.dashboard-expense-row:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
 
-  flex: 0 0 33px;
-
+.dashboard-expense-icon,
+.dashboard-group-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-
-  background: #f5f6f4;
-  color: #667085;
-
-  border-radius: 8px;
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: #f1f4ee;
+  color: #65745e;
 }
 
-.dashboard-expense-info {
-  min-width: 0;
+.dashboard-expense-info,
+.dashboard-group-info {
   flex: 1;
-
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+  min-width: 0;
 }
 
-.dashboard-expense-info strong {
-  overflow: hidden;
-
-  color: #344054;
-
-  font-size: 10px;
-  font-weight: 700;
-
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.dashboard-expense-info h3,
+.dashboard-group-info h3 {
+  margin: 0;
+  color: #2a2e28;
+  font-size: 13px;
+  font-weight: 750;
+  overflow-wrap: anywhere;
 }
 
-.dashboard-expense-info span {
-  overflow: hidden;
-
-  color: #98a2b3;
-
-  font-size: 8px;
-  font-weight: 500;
-
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.dashboard-expense-info p,
+.dashboard-group-info p {
+  margin: 5px 0 0;
+  color: #92978f;
+  font-size: 11px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
 }
 
 .dashboard-expense-amount {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 4px;
-
-  white-space: nowrap;
+  flex-shrink: 0;
+  gap: 5px;
+  max-width: 42%;
 }
 
 .dashboard-expense-amount strong {
-  color: #344054;
+  color: #252a23;
+  font-size: 13px;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+  text-align: right;
+}
 
+.dashboard-expense-status {
   font-size: 10px;
-  font-weight: 750;
+  font-weight: 700;
+  text-align: right;
+  overflow-wrap: anywhere;
 }
 
-.dashboard-expense-amount span {
-  color: #98a2b3;
-
-  font-size: 8px;
-  font-weight: 500;
+.status-paid,
+.status-settled {
+  color: #579344;
 }
 
-.dashboard-expense-more {
-  width: 26px;
-  height: 30px;
+.status-owed {
+  color: #c7793c;
+}
 
+.status-other {
+  color: #81877e;
+}
+
+.dashboard-more-button {
   display: flex;
   align-items: center;
   justify-content: center;
-
+  flex-shrink: 0;
+  width: 30px;
+  height: 34px;
   padding: 0;
-
+  border: none;
+  border-radius: 8px;
   background: transparent;
-  color: #98a2b3;
-
-  border: 0;
-
+  color: #92978f;
   cursor: pointer;
+}
+
+.dashboard-more-button:hover {
+  background: #f4f5f2;
+  color: #252a23;
 }
 
 /* =========================================
    GROUPS
-========================================= */
+   ========================================= */
 
 .dashboard-groups-list {
   display: flex;
   flex-direction: column;
 }
 
-.dashboard-group-card {
-  min-height: 67px;
-  padding: 10px 17px;
-
+.dashboard-group-row {
   display: flex;
   align-items: center;
-  gap: 10px;
-
-  border-bottom: 1px solid #f0f1ef;
-
+  gap: 12px;
+  min-width: 0;
+  padding: 16px 0;
+  border-bottom: 1px solid #f0f1ee;
+  color: inherit;
   text-decoration: none;
-
-  transition: background 180ms ease;
 }
 
-.dashboard-group-card:hover {
-  background: #fafbfa;
+.dashboard-group-row:first-child {
+  padding-top: 0;
 }
 
-.dashboard-group-card-avatar {
-  width: 33px;
-  height: 33px;
+.dashboard-group-row:last-child {
+  border-bottom: none;
+}
 
-  flex: 0 0 33px;
+.dashboard-group-row > svg {
+  flex-shrink: 0;
+  color: #a0a59d;
+}
 
+.dashboard-group-row:hover .dashboard-group-icon {
+  background: #e8f2e2;
+  color: #4f8540;
+}
+
+.dashboard-create-group-link {
   display: flex;
   align-items: center;
   justify-content: center;
-
-  background: #eef1ee;
-  color: #475467;
-
-  border-radius: 8px;
-
-  font-size: 11px;
-  font-weight: 800;
-}
-
-.dashboard-group-card-info {
-  min-width: 0;
-  flex: 1;
-
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.dashboard-group-card-info strong {
-  overflow: hidden;
-
-  color: #344054;
-
-  font-size: 10px;
-  font-weight: 700;
-
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.dashboard-group-card-info span {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-
-  color: #98a2b3;
-
-  font-size: 8px;
-  font-weight: 500;
-}
-
-.dashboard-group-balance {
-  font-size: 10px;
+  gap: 8px;
+  width: 100%;
+  min-height: 42px;
+  margin-top: 18px;
+  border: 1px dashed #d8dfd2;
+  border-radius: 10px;
+  background: #fbfcfa;
+  color: #5b8d49;
+  font-size: 12px;
   font-weight: 750;
+  text-decoration: none;
+  box-sizing: border-box;
 }
 
-.dashboard-group-balance.positive {
-  color: #20b86b;
-}
-
-.dashboard-group-balance.negative {
-  color: #d65c5c;
-}
-
-.dashboard-group-chevron {
-  color: #c2c7c1;
+.dashboard-create-group-link:hover {
+  border-color: #9fbe91;
+  background: #f3f8ef;
 }
 
 /* =========================================
-   NEW GROUP
-========================================= */
+   EMPTY AND ERROR STATES
+   ========================================= */
 
-.dashboard-new-group {
-  width: calc(100% - 34px);
-  height: 39px;
-  margin: 13px 17px;
-
+.dashboard-empty-state {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 7px;
-
-  background: #f7f8f6;
-  color: #475467;
-
-  border: 1px solid #e7e9e5;
-  border-radius: 7px;
-
-  font-family: "Manrope", sans-serif;
-  font-size: 10px;
-  font-weight: 700;
-
-  cursor: pointer;
-
-  transition:
-    background 180ms ease,
-    color 180ms ease;
+  padding: 32px 12px;
+  text-align: center;
 }
 
-.dashboard-new-group:hover {
-  background: #eef9f3;
-  color: #159456;
+.dashboard-empty-state > svg {
+  margin-bottom: 12px;
+  color: #a1ad99;
+}
+
+.dashboard-empty-state h3 {
+  margin: 0;
+  color: #343a31;
+  font-size: 14px;
+  font-weight: 750;
+}
+
+.dashboard-empty-state p {
+  max-width: 260px;
+  margin: 8px 0 14px;
+  color: #858b82;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.dashboard-empty-state a {
+  color: #5b8d49;
+  font-size: 12px;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.dashboard-error {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding: 16px 18px;
+  border: 1px solid #f0d0cc;
+  border-radius: 12px;
+  background: #fff8f7;
+  color: #a23f34;
+  font-size: 13px;
+}
+
+.dashboard-error p {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.dashboard-error button {
+  flex-shrink: 0;
+  padding: 8px 12px;
+  border: 1px solid #e6c0bb;
+  border-radius: 8px;
+  background: #fff;
+  color: #a23f34;
+  font: inherit;
+  cursor: pointer;
+}
+
+/* =========================================
+   LOADING STATE
+   ========================================= */
+
+.dashboard-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 100vh;
+  padding: 24px;
+  box-sizing: border-box;
+  color: #737b6f;
+  font-family: "Manrope", sans-serif;
+}
+
+.dashboard-spinner {
+  width: 28px;
+  height: 28px;
+  border: 3px solid #e7eae4;
+  border-top-color: #7cba65;
+  border-radius: 50%;
+  animation: dashboard-spin 0.7s linear infinite;
+}
+
+@keyframes dashboard-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* =========================================
    TABLET
-========================================= */
+   ========================================= */
 
-@media (max-width: 900px) and (min-width: 761px) {
+@media (max-width: 1200px) {
   .dashboard-main {
-    margin-left: 220px;
-    padding: 32px 26px 50px;
+    padding: 30px 26px;
   }
 
-  .dashboard-content-grid {
-    grid-template-columns: 1fr;
+  .dashboard-balance-grid {
+    gap: 14px;
+  }
+
+  .dashboard-balance-card {
+    padding: 20px;
+  }
+
+  .dashboard-sections-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* =========================================
+   SMALL TABLET
+   ========================================= */
+
+@media (max-width: 900px) {
+  .dashboard-layout {
+    --sidebar-width: 220px;
+  }
+
+  .dashboard-main {
+    padding: 26px 20px;
+  }
+
+  .dashboard-balance-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dashboard-balance-primary {
+    grid-column: 1 / -1;
+  }
+
+  .dashboard-header {
+    align-items: flex-start;
   }
 }
 
 /* =========================================
    MOBILE
-========================================= */
+   Assumes the sidebar becomes a bottom navigation.
+   ========================================= */
 
-@media (max-width: 760px) {
+@media (max-width: 640px) {
+  .dashboard-layout {
+    display: block;
+    width: 100%;
+    min-height: 100vh;
+    padding-bottom: 76px;
+  }
+
   .dashboard-main {
+    width: 100%;
+    min-width: 0;
+    min-height: 100vh;
     margin-left: 0;
-
-    padding: 27px 16px 95px;
+    padding: 25px 16px 32px;
+    overflow-x: clip;
   }
 
   .dashboard-header {
-    margin-bottom: 25px;
-
-    align-items: flex-start;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 18px;
+    margin-bottom: 24px;
   }
 
   .dashboard-header h1 {
-    font-size: 25px;
+    font-size: 27px;
   }
 
-  .dashboard-header p {
-    max-width: 260px;
-    line-height: 1.5;
-  }
-
-  .dashboard-header-add {
-    width: 41px;
-    height: 41px;
-    min-height: 41px;
-
-    padding: 0;
-    border-radius: 9px;
-  }
-
-  .dashboard-header-add svg {
-    margin: 0;
-  }
-
-  .dashboard-header-add {
-    font-size: 0;
+  .dashboard-add-button {
+    align-self: flex-start;
   }
 
   .dashboard-balance-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
-
-  .dashboard-balance-main {
-    grid-column: 1 / -1;
-  }
-
-  .dashboard-content-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .dashboard-balance-primary {
+    grid-column: auto;
   }
 
   .dashboard-balance-card {
-    min-height: 130px;
-    padding: 15px;
+    padding: 20px;
   }
 
-  .dashboard-balance-value {
-    font-size: 29px;
+  .dashboard-balance-card h2 {
+    margin-top: 16px;
+    font-size: 28px;
   }
 
-  .dashboard-small-value {
-    margin-top: 22px;
-    font-size: 21px;
+  .dashboard-sections-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .dashboard-panel {
+    padding: 18px 15px;
+    border-radius: 14px;
   }
 
   .dashboard-panel-header {
-    padding: 15px;
-  }
-
-  .dashboard-expense {
-    padding: 10px 15px;
-  }
-}
-
-@media (max-width: 430px) {
-  .dashboard-header h1 {
-    font-size: 23px;
-  }
-
-  .dashboard-balance-grid {
+    align-items: flex-start;
     gap: 8px;
   }
 
-  .dashboard-balance-card {
-    padding: 14px;
+  .dashboard-panel-header h2 {
+    font-size: 16px;
+  }
+
+  .dashboard-expense-row {
+    gap: 9px;
+  }
+
+  .dashboard-expense-icon,
+  .dashboard-group-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+  }
+
+  .dashboard-expense-info h3,
+  .dashboard-group-info h3 {
+    font-size: 12px;
+  }
+
+  .dashboard-expense-info p,
+  .dashboard-group-info p {
+    font-size: 10px;
   }
 
   .dashboard-expense-amount {
+    max-width: 36%;
+  }
+
+  .dashboard-expense-amount strong {
+    font-size: 11px;
+  }
+
+  .dashboard-expense-status {
+    font-size: 9px;
+  }
+
+  .dashboard-more-button {
+    width: 24px;
+  }
+}
+
+/* =========================================
+   VERY SMALL MOBILE
+   ========================================= */
+
+@media (max-width: 380px) {
+  .dashboard-main {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+
+  .dashboard-panel {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+
+  .dashboard-expense-row {
+    gap: 7px;
+  }
+
+  .dashboard-expense-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .dashboard-more-button {
     display: none;
   }
 }
